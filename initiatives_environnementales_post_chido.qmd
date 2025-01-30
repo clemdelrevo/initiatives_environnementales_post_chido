@@ -77,7 +77,7 @@ leaflet::leaflet(data = crosstalk_init) |>
           ) |>
   # leaflet::addCircleMarkers() |>
   leaflet::addCircleMarkers(
-          radius = 6,
+          radius = 4,
           color = ~ pal(statut),
           stroke = FALSE,
           fillOpacity = 1,
@@ -94,7 +94,7 @@ leaflet::leaflet(data = crosstalk_init) |>
   #         clusterOptions = leaflet::markerClusterOptions(),
   #         popup =  ~initiative_card(image, initiatives, structure, date, inscriptions)
   #         ) |>
-  leaflet::addLegend(pal = pal, values = ~statut, opacity = 1, na.label = "Not Available") |>
+  leaflet::addLegend(pal = pal, values = ~statut, opacity = 1, na.label = "Non disponible") |>
   leaflet::fitBounds(45, -12.7, 45.312, -12.95)
   
 ```
@@ -102,29 +102,39 @@ leaflet::leaflet(data = crosstalk_init) |>
 
 ## Row {height=20%}
 
-::: {.valuebox icon="arrow-repeat" color="vb-warning"}
+::: {.valuebox icon="arrow-repeat" color="warning"}
 Initiatives à venir
 
 `r length(winitiatives$statut[winitiatives$statut == "À venir"])`
 :::
 
-::: {.valuebox icon="plus-circle" color="vb-info"}
+::: {.valuebox icon="plus-circle" color="info"}
 Initiatives terminées
 
 `r length(winitiatives$statut[winitiatives$statut == "Terminé"])`
 :::
 
-::: {.valuebox icon="check-circle" color="vb-success"}
+::: {.valuebox icon="check-circle" color="success"}
 Closed
 :::
 
-::: {.valuebox icon="x-circle" color="vb-danger"}
+::: {.valuebox icon="x-circle" color="danger"}
 Cancelled
 :::
 
 ## Row {height=80%}
 
+### Colunm {width=50%}
+
+Ici prochainement une carte
+
+
+
+### Column {width=50%}
+
+#### Row {height=50%}
 ```{r}
+#| title: "Nombre d'initiatives par thématique"
 #| padding: 0px
 
 count_init <- winitiatives |>
@@ -133,11 +143,45 @@ count_init <- winitiatives |>
 count_init$type <- forcats::fct_reorder(count_init$type, count_init$n)
 
 ggplot2::ggplot() +
-  ggplot2::geom_col(data = count_init, ggplot2::aes(y = n, x = type), fill = "#2ca0f6", color = "#2ca0f6") +
+  ggplot2::geom_col(data = count_init, ggplot2::aes(y = n, x = type), fill = "#288fdb", color = "#288fdb") +
+  ggplot2::scale_y_continuous(breaks = 1:max(count_init$n), labels = as.integer) +
   ggplot2::coord_flip() +
-  ggplot2::theme_grey() +
+  ggplot2::theme_minimal() +
   ggplot2::theme(
-    axis.title = ggplot2::element_blank()
+    axis.title = ggplot2::element_blank(),
+    axis.text.y = ggplot2::element_text(size = 20),
+    axis.text.x = ggplot2::element_text(size = 18),
+    panel.grid.minor = ggplot2::element_blank(),
+    panel.grid.major.y = ggplot2::element_blank()
   )
+```
+#### Row {height=50%}
+
+```{r}
+#| padding: 0px
+targets::tar_load(winitiatives)
+
+winitiatives$date <- as.Date(winitiatives$date, format = "%d/%m/%y")
+
+init_monthly <- winitiatives |>
+  dplyr::mutate(month = lubridate::floor_date(date, "month"))
+
+init_monthly$month <- format.Date(init_monthly$month, format = "%d/%m/%y")
+  
+monthly_count <- init_monthly |> dplyr::count(month)
+monthly_count$month <- as.Date(monthly_count$month, format = "%d/%m/%y")
+
+
+ggplot2::ggplot() +
+  ggplot2::geom_col(data = monthly_count, ggplot2::aes(x = month, y = n), fill = "orange") +
+  ggplot2::scale_x_date(date_labels = "%b %Y", date_breaks = "1 month") +
+  ggplot2::scale_y_continuous(breaks = 1:max(monthly_count$n), labels = as.integer) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    axis.title = ggplot2::element_blank(),
+    axis.text.y = ggplot2::element_text(size = 20),
+    axis.text.x = ggplot2::element_text(size = 20),
+  )
+
 ```
 

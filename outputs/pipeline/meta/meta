@@ -1,9 +1,9 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
 initiatives_dashboard|stem||4668d5bf119860ad|c50da0c90a89aa00|823343993||t20118.2409396081s||0|file|local|vector|||1.151||Error running quarto cli.ℹ Rerun with quiet  FALSE to see the full error message.Caused by error System command quarto failed
-initiative_path|stem|3e17dbadbf8a04ba|a743eab27503aa73|03cbb7c22c236fb7|2045982768|data/initiatives.csv|t20118.2970063777s|s628b|628|file|local|vector|||0||
-initiatives|stem|380103ee294b7840|cceebb9033dfc71b|98bc2fd130433508|315734697||t20118.297163474s|s663b|663|qs|local|vector|||0||
-wrangle_initiatives|function|90f2419d488a5b79
+initiative_path|stem|79fdef9d080d4ad9|a743eab27503aa73|03cbb7c22c236fb7|2045982768|data/initiatives.csv|t20118.5593162564s|s1849b|1849|file|local|vector|||0||
+initiatives|stem|c21d8c7220301db7|cceebb9033dfc71b|642411e43f88d584|315734697||t20118.5595294337s|s1256b|1256|qs|local|vector|||0||
+winitiatives|stem|cd9c7cca92759627|74bb2b3a399f54a6|e491b55ad7f471fe|-346241335||t20118.5595295929s|s1403b|1403|qs|local|vector|||0.01||
+wrangle_initiatives|function|43e18d233075dc75
 get_initiative_path|function|b213756d8c1a5d4f
-.Random.seed|object|a290bcf539a1350b
+.Random.seed|object|458acb216c956d33
 read_initiatives|function|74e71918b1b53f82
-winitiatives|stem|9edc38c12342446e|74bb2b3a399f54a6|d11c34f4e6d2940f|-346241335||t20118.3098851917s|s736b|736|qs|local|vector|||0.005||

@@ -15,6 +15,7 @@ Imports:
   ggplot2,
   here,
   knitr,
+  lubridate,
   qs2,
   quarto,
   leaflet,
