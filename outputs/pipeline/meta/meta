@@ -1,0 +1,7 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+wrangle_initiatives|function|0f6276fe1cf5602b
+.Random.seed|object|78554f23816dfec4
+read_initiatives|function|279cb748ac5607f9
+initiatives|stem|fa5b4762adc48828|d8b2b41ae32529d1|5d74cbc23c0af5a6|315734697||t20118.2409257345s|s621b|621|qs|local|vector|||0.001||
+winitiatives|stem|1be1533916ef17dd|74bb2b3a399f54a6|306e81a9d806b590|-346241335||t20118.2409262182s|s728b|728|qs|local|vector|||0.018||
+initiatives_dashboard|stem||4668d5bf119860ad|c50da0c90a89aa00|823343993||t20118.2409396081s||0|file|local|vector|||1.151|| Error running quarto cli.ℹ Rerun with quiet  FALSE to see the full error message.Caused by error System command quarto failed

@@ -1,0 +1,103 @@
+---
+title: "Initiatives environnementales post chido"
+format: 
+  dashboard: 
+    nav-buttons: [github]
+    orientation: columns
+    theme: spacelab
+---
+
+```{r}
+targets::tar_load(winitiatives)
+```
+
+
+# Cartographie
+
+##  {.sidebar}
+
+<br>
+
+::: {.center}
+Bienvenue sur la plateformes des initiatives environnementales post Chido
+:::
+
+Naviguez sur cette cartographie afin de trouver les initiatives près de chez vous. Cliquez sur les initiatives afin d'avoir plus d'informations.
+
+```{r}
+
+library(crosstalk)
+
+crosstalk_init <- SharedData$new(winitiatives)
+
+filter_select("type", "Type d'initiative", crosstalk_init, ~type)
+
+```
+
+```{r}
+filter_select("statut", "Statut de l'initiative", crosstalk_init, ~statut)
+```
+
+
+<br>
+
+Afin de faire recenser votre initiative, merci d'envoyer un mail à l'adresse suivante: clement.delamare@live.fr
+
+
+## Column {width=80%}
+
+```{r}
+#| padding: 0px
+
+pal <- leaflet::colorFactor(pal = c("#5773CCFF", "#FFB900FF"), domain = c("À venir", "Terminé"))
+
+initiative_card <- function(img_type, init_name, init_structure, init_date, init_inscription) {
+  
+  card_content <- paste0(
+    "<img src= 'data/", img_type,"', width='50' height='50'>",
+    "<tr>",
+    "<th><b><h3 style='text-align: center;'>", init_name,"</h3></b></th>",
+    "<p style='text-align: lef; font-size: 15px;'> structure organisatrice: <b>", init_structure, "</b></p>",
+    "<p style='text-align: lef; font-size: 15px;'> date: <b>", init_date, "</b></p>",
+    "<a style='text-align: lef'; href= '", init_inscription, "'> inscription ici </a>"
+  )
+  
+  return(card_content)
+  
+}
+
+  
+  leaflet::leaflet(data = crosstalk_init) |>
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.Positron, group = "Positron", options = leaflet::providerTileOptions(noWrap = TRUE)) |>
+    leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Esri World Imagery", options = leaflet::providerTileOptions(noWrap = TRUE))|>
+    leaflet::addLayersControl(
+            baseGroups = c("Positron", "Esri World Imagery"),
+            position = c("topleft"),
+            # overlayGroups = c("Avec Clustering", "Sans Clustering"),
+            options = leaflet::layersControlOptions(collapsed = TRUE)
+           ) |>
+    # leaflet::addCircleMarkers() |>
+    leaflet::addCircleMarkers(
+            radius = 6,
+            color = ~ pal(statut),
+            stroke = FALSE,
+            fillOpacity = 1,
+            #group = "Sans Clustering",
+            # clusterOptions = leaflet::markerClusterOptions(),
+            popup =  ~initiative_card(image, initiatives, structure, date, inscriptions)
+            ) |>
+    # leaflet::addCircleMarkers(
+    #         radius = 6,
+    #         color = ~ pal(statut),
+    #         stroke = FALSE,
+    #         fillOpacity = 1,
+    #         group = "Avec Clustering",
+    #         clusterOptions = leaflet::markerClusterOptions(),
+    #         popup =  ~initiative_card(image, initiatives, structure, date, inscriptions)
+    #         ) |>
+           leaflet::addLegend(pal = pal, values = ~statut, opacity = 1, na.label = "Not Available") |>
+    leaflet::fitBounds(45, -12.7, 45.312, -12.95)
+  
+
+```
+
