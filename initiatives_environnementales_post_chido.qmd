@@ -11,14 +11,13 @@ format:
 targets::tar_load(winitiatives)
 ```
 
-
 # Cartographie
 
 ##  {.sidebar}
 
 <br>
 
-::: {.center}
+::: center
 Bienvenue sur la plateformes des initiatives environnementales post Chido
 :::
 
@@ -38,13 +37,11 @@ filter_select("type", "Type d'initiative", crosstalk_init, ~type)
 filter_select("statut", "Statut de l'initiative", crosstalk_init, ~statut)
 ```
 
-
 <br>
 
-Afin de faire recenser votre initiative, merci d'envoyer un mail à l'adresse suivante: clement.delamare@live.fr
+Afin de faire recenser votre initiative, merci d'envoyer un mail à l'adresse suivante: clement.delamare\@live.fr
 
-
-## Column {width=80%}
+## Column {width="80%"}
 
 ```{r}
 #| padding: 0px
@@ -100,4 +97,3 @@ initiative_card <- function(img_type, init_name, init_structure, init_date, init
   
 
 ```
-

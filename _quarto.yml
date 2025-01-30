@@ -1,4 +1,5 @@
 project:
+  type: website
   title: "initiatives_environnementales_post_chido"
   output-dir: docs
 
