@@ -3,7 +3,6 @@ title: "Initiatives environnementales post chido"
 format: 
   dashboard: 
     nav-buttons: [github]
-    orientation: columns
     theme: spacelab
 ---
 
@@ -99,3 +98,46 @@ leaflet::leaflet(data = crosstalk_init) |>
   leaflet::fitBounds(45, -12.7, 45.312, -12.95)
   
 ```
+# Infographie
+
+## Row {height=20%}
+
+::: {.valuebox icon="arrow-repeat" color="vb-warning"}
+Initiatives à venir
+
+`r length(winitiatives$statut[winitiatives$statut == "À venir"])`
+:::
+
+::: {.valuebox icon="plus-circle" color="vb-info"}
+Initiatives terminées
+
+`r length(winitiatives$statut[winitiatives$statut == "Terminé"])`
+:::
+
+::: {.valuebox icon="check-circle" color="vb-success"}
+Closed
+:::
+
+::: {.valuebox icon="x-circle" color="vb-danger"}
+Cancelled
+:::
+
+## Row {height=80%}
+
+```{r}
+#| padding: 0px
+
+count_init <- winitiatives |>
+  dplyr::count(type)
+
+count_init$type <- forcats::fct_reorder(count_init$type, count_init$n)
+
+ggplot2::ggplot() +
+  ggplot2::geom_col(data = count_init, ggplot2::aes(y = n, x = type), fill = "#2ca0f6", color = "#2ca0f6") +
+  ggplot2::coord_flip() +
+  ggplot2::theme_grey() +
+  ggplot2::theme(
+    axis.title = ggplot2::element_blank()
+  )
+```
+
