@@ -1,7 +1,5 @@
 name|type|parent|branches|progress
-initiatives|stem|initiatives|0|dispatched
-initiatives|stem|initiatives|0|completed
+initiative_path|stem|initiative_path|0|skipped
+initiatives|stem|initiatives|0|skipped
 winitiatives|stem|winitiatives|0|dispatched
 winitiatives|stem|winitiatives|0|completed
-initiatives_dashboard|stem|initiatives_dashboard|0|dispatched
-initiatives_dashboard|stem|initiatives_dashboard|0|errored

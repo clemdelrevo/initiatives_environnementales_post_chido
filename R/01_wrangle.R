@@ -10,9 +10,9 @@ wrangle_initiatives <- function(initiatives) {
   initiatives$type <- as.factor(initiatives$type)
   
   initiatives$image <- NA
-  initiatives$image[initiatives$type == "Lutte Espèces Exotiques Envahissantes"] <- "EEE.png"
-  initiatives$image[initiatives$type == "Suivis scientifiques"] <- "loupe.png"
-  initiatives$image[initiatives$type == "Ramassage de déchets"] <- "dechets.jpg"
+  initiatives$image[initiatives$type == "Lutte Espèces Exotiques Envahissantes"] <- "images/EEE.png"
+  initiatives$image[initiatives$type == "Suivis scientifiques"] <- "images/loupe.png"
+  initiatives$image[initiatives$type == "Ramassage de déchets"] <- "images/dechets.jpg"
   
   return(initiatives)
   

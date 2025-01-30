@@ -28,3 +28,4 @@
 # targets::tar_visnetwork(targets_only = T)
 targets::tar_make()
 quarto::quarto_render("initiatives_environnementales_post_chido.qmd")
+fs::dir_copy(here::here("images"), here::here("docs", "images"))

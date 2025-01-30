@@ -49,51 +49,53 @@ Afin de faire recenser votre initiative, merci d'envoyer un mail à l'adresse su
 pal <- leaflet::colorFactor(pal = c("#5773CCFF", "#FFB900FF"), domain = c("À venir", "Terminé"))
 
 initiative_card <- function(img_type, init_name, init_structure, init_date, init_inscription) {
-  
+  # img_type = "EEE.png"
+  # init_name = "Arrachage d’EEE"
+  # init_structure = "GEPOMAY"
+  # init_date = "22/02/25"
+  # init_inscription = "https://www.jeveuxaider.gouv.fr/missions-benevolat/66226/benevolat-gepomay"
   card_content <- paste0(
-    "<img src= 'data/", img_type,"', width='50' height='50'>",
+    "<img src='", img_type,"' style='width: 50px; height: 50px;'>",
     "<tr>",
     "<th><b><h3 style='text-align: center;'>", init_name,"</h3></b></th>",
-    "<p style='text-align: lef; font-size: 15px;'> structure organisatrice: <b>", init_structure, "</b></p>",
-    "<p style='text-align: lef; font-size: 15px;'> date: <b>", init_date, "</b></p>",
-    "<a style='text-align: lef'; href= '", init_inscription, "'> inscription ici </a>"
+    "<p style='text-align: left; font-size: 15px;'> structure organisatrice: <b>", init_structure, "</b></p>",
+    "<p style='text-align: left; font-size: 15px;'> date: <b>", init_date, "</b></p>",
+    "<a style='text-align: left'; href= '", init_inscription, "' target='_blank'> inscription ici </a>"
   )
   
   return(card_content)
   
 }
 
-  
-  leaflet::leaflet(data = crosstalk_init) |>
-    leaflet::addProviderTiles(leaflet::providers$CartoDB.Positron, group = "Positron", options = leaflet::providerTileOptions(noWrap = TRUE)) |>
-    leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Esri World Imagery", options = leaflet::providerTileOptions(noWrap = TRUE))|>
-    leaflet::addLayersControl(
-            baseGroups = c("Positron", "Esri World Imagery"),
-            position = c("topleft"),
-            # overlayGroups = c("Avec Clustering", "Sans Clustering"),
-            options = leaflet::layersControlOptions(collapsed = TRUE)
-           ) |>
-    # leaflet::addCircleMarkers() |>
-    leaflet::addCircleMarkers(
-            radius = 6,
-            color = ~ pal(statut),
-            stroke = FALSE,
-            fillOpacity = 1,
-            #group = "Sans Clustering",
-            # clusterOptions = leaflet::markerClusterOptions(),
-            popup =  ~initiative_card(image, initiatives, structure, date, inscriptions)
+leaflet::leaflet(data = crosstalk_init) |>
+  leaflet::addProviderTiles(leaflet::providers$CartoDB.Positron, group = "Positron", options = leaflet::providerTileOptions(noWrap = TRUE)) |>
+  leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Esri World Imagery", options = leaflet::providerTileOptions(noWrap = TRUE))|>
+  leaflet::addLayersControl(
+          baseGroups = c("Positron", "Esri World Imagery"),
+          position = c("topleft"),
+          # overlayGroups = c("Avec Clustering", "Sans Clustering"),
+          options = leaflet::layersControlOptions(collapsed = TRUE)
+          ) |>
+  # leaflet::addCircleMarkers() |>
+  leaflet::addCircleMarkers(
+          radius = 6,
+          color = ~ pal(statut),
+          stroke = FALSE,
+          fillOpacity = 1,
+          #group = "Sans Clustering",
+          # clusterOptions = leaflet::markerClusterOptions(),
+          popup = ~ initiative_card(image, initiatives, structure, date, inscriptions)
             ) |>
-    # leaflet::addCircleMarkers(
-    #         radius = 6,
-    #         color = ~ pal(statut),
-    #         stroke = FALSE,
-    #         fillOpacity = 1,
-    #         group = "Avec Clustering",
-    #         clusterOptions = leaflet::markerClusterOptions(),
-    #         popup =  ~initiative_card(image, initiatives, structure, date, inscriptions)
-    #         ) |>
-           leaflet::addLegend(pal = pal, values = ~statut, opacity = 1, na.label = "Not Available") |>
-    leaflet::fitBounds(45, -12.7, 45.312, -12.95)
+  # leaflet::addCircleMarkers(
+  #         radius = 6,
+  #         color = ~ pal(statut),
+  #         stroke = FALSE,
+  #         fillOpacity = 1,
+  #         group = "Avec Clustering",
+  #         clusterOptions = leaflet::markerClusterOptions(),
+  #         popup =  ~initiative_card(image, initiatives, structure, date, inscriptions)
+  #         ) |>
+  leaflet::addLegend(pal = pal, values = ~statut, opacity = 1, na.label = "Not Available") |>
+  leaflet::fitBounds(45, -12.7, 45.312, -12.95)
   
-
 ```
