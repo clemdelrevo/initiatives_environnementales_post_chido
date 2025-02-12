@@ -1,5 +1,6 @@
 wrangle_initiatives <- function(initiatives) {
   
+  # targets::tar_load(initiatives)
   initiatives$longitude <- as.numeric(initiatives$longitude)
   initiatives$latitude  <- as.numeric(initiatives$latitude)
   initiatives$date      <- as.Date(initiatives$date, format = "%d/%m/%y")

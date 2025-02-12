@@ -7,6 +7,6 @@ get_initiative_path <- function() {
 
 read_initiatives <- function(initiative_path) {
   
-  read.csv("data/initiatives.csv")
+  read.csv(initiative_path)
   
 }
