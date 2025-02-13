@@ -2,12 +2,16 @@
 title: "Initiatives environnementales post chido"
 format: 
   dashboard: 
+    orientation: columns
     nav-buttons: [github]
-    theme: spacelab
+    theme: 
+      - spacelab
+      - style/custom.scss
 ---
 
 ```{r}
 targets::tar_load(winitiatives)
+targets::tar_load(bversant)
 ```
 
 # Cartographie
@@ -107,44 +111,81 @@ leaflet::leaflet(data = crosstalk_init) |>
 ```
 # Infographie
 
-## Row {height=20%}
+## Colunm 
 
-::: {.valuebox icon="arrow-repeat" color="warning"}
-Initiatives à venir
+### Row 
 
-`r length(winitiatives$statut[winitiatives$statut == "À venir"])`
-:::
-
-::: {.valuebox icon="plus-circle" color="info"}
-Initiatives terminées
-
-`r length(winitiatives$statut[winitiatives$statut == "Terminé"])`
-:::
-
-::: {.valuebox icon="check-circle" color="success"}
-Closed
-:::
-
-::: {.valuebox icon="x-circle" color="danger"}
-Cancelled
-:::
-
-## Row {height=80%}
-
-### Colunm {width=50%}
-
-Ici prochainement une carte
-
-
-
-### Column {width=50%}
-
-#### Row {height=50%}
 ```{r}
-#| title: "Nombre d'initiatives par thématique"
+action_with_date <- winitiatives[!is.na(winitiatives$statut), ]
+```
+
+```{r}
+#| component: valuebox
+#| title: Initiatives à venir
+list(
+  icon = "arrow-repeat",
+  color = "vb-warning",
+  value = length(action_with_date$statut[action_with_date$statut == "À venir"])
+)
+```
+
+
+```{r}
+#| component: valuebox
+#| title: Initiatives terminées
+list(
+  icon = "check2-circle",
+  color = "vb-success",
+  value = length(action_with_date$statut[action_with_date$statut == "Terminé"])
+)
+```
+
+### Row 
+
+```{r}
+#| title: Nombre d'actions par bassin versant
 #| padding: 0px
 
-count_init <- winitiatives |>
+winit_geom <- sf::st_as_sf(winitiatives, coords = c("longitude", "latitude"), crs = sf::st_crs(4326))
+winit_geom <- sf::st_transform(winit_geom, crs = sf::st_crs(4471))
+
+int <- sf::st_intersects(bversant, winit_geom)
+
+bversant$count_action <- unlist(lapply(int, length))
+bversant$count_action <- as.numeric(bversant$count_action)
+
+ggplot2::ggplot() +
+    ggplot2::geom_sf(data = bversant, ggplot2::aes(fill = count_action)) +
+    paletteer::scale_fill_paletteer_c(
+      "pals::kovesi.linear_blue_95_50_c20",
+      breaks = range(bversant$count_action),
+      labels = c("-", "+")
+      ) +
+  ggplot2::theme_void() +
+  ggplot2::theme(
+      legend.title = ggplot2::element_blank()
+    )
+
+# plotly::plot_ly(bversant, split = ~ count_action, color = ~ count_action, showlegend = FALSE, hoveron = "fills")
+
+```
+
+
+
+
+## Column 
+
+### Row
+
+```{r}
+terminated_actions <- action_with_date[action_with_date$statut == "Terminé", ]
+```
+
+
+```{r}
+#| padding: 0px
+
+count_init <- terminated_actions |>
   dplyr::count(type)
 
 count_init$type <- forcats::fct_reorder(count_init$type, count_init$n)
@@ -162,15 +203,14 @@ ggplot2::ggplot() +
     panel.grid.major.y = ggplot2::element_blank()
   )
 ```
-#### Row {height=50%}
+### Row
 
 ```{r}
 #| padding: 0px
-targets::tar_load(winitiatives)
 
-winitiatives$date <- as.Date(winitiatives$date, format = "%d/%m/%y")
+terminated_actions$date <- as.Date(terminated_actions$date, format = "%d/%m/%y")
 
-init_monthly <- winitiatives |>
+init_monthly <- terminated_actions |>
   dplyr::mutate(month = lubridate::floor_date(date, "month"))
 
 init_monthly$month <- format.Date(init_monthly$month, format = "%d/%m/%y")

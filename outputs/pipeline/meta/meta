@@ -1,8 +1,12 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
 wrangle_initiatives|function|43e18d233075dc75
 get_initiative_path|function|b213756d8c1a5d4f
-.Random.seed|object|cc432b1d3b78ef69
+.Random.seed|object|74b614e7e98ae3a9
+get_bversant_path|function|3ecc835b0983a29d
 read_initiatives|function|85c365d481042b62
+read_bversant|function|bbb40a759526f9ed
 initiative_path|stem|79fdef9d080d4ad9|a743eab27503aa73|03cbb7c22c236fb7|2045982768|data/initiatives.csv|t20118.5593162564s|s1849b|1849|file|local|vector|||0||
-initiatives|stem|c21d8c7220301db7|cceebb9033dfc71b|6bc71df59739a13f|315734697||t20131.3889739836s|s1256b|1256|qs|local|vector|||0||
-winitiatives|stem|05082c28fcc84dfa|74bb2b3a399f54a6|e491b55ad7f471fe|-346241335||t20131.3889741229s|s1395b|1395|qs|local|vector|||0.009||
+bversant_path|stem|bb4e4aaab170363e|7d8155411a45a59f|fffe61d822c07fbe|1640245395|data/BASSIN_VERSANT_TOPOGRAPHIQUE.shp|t20061.6589814815s|s2205848b|2205848|file|local|vector|||0||
+initiatives|stem|c21d8c7220301db7|cceebb9033dfc71b|6bc71df59739a13f|315734697||t20132.5149688718s|s1256b|1256|qs|local|vector|||0.001||
+bversant|stem|45d8885b9c7ce5d0|14e9a12d45fb4e59|065ad6e9644e1613|-149979171||t20132.5149710981s|s795735b|795735|qs|local|vector|||0.18||
+winitiatives|stem|05082c28fcc84dfa|74bb2b3a399f54a6|e491b55ad7f471fe|-346241335||t20132.5149712123s|s1395b|1395|qs|local|vector|||0.007||
