@@ -1,7 +1,7 @@
 
 get_initiative_path <- function() {
   
-  "data/initiatives.csv"
+  "data/liste_initiatives.csv"
   
 }
 

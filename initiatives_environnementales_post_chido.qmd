@@ -94,7 +94,7 @@ leaflet::leaflet(data = crosstalk_init) |>
           fillOpacity = 1,
           #group = "Sans Clustering",
           # clusterOptions = leaflet::markerClusterOptions(),
-          popup = ~ initiative_card(image, initiatives, structure, date, inscriptions)
+          popup = ~ initiative_card(image, type_d_action, structure, date_souhaité, inscriptions)
             ) |>
   # leaflet::addCircleMarkers(
   #         radius = 6,
