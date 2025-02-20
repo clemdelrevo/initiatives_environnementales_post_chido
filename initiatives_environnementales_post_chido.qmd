@@ -18,11 +18,9 @@ targets::tar_load(bversant)
 
 ##  {.sidebar}
 
-<br>
 
-::: center
 Bienvenue sur la plateformes des initiatives environnementales post Chido
-:::
+
 
 Naviguez sur cette cartographie afin de trouver les initiatives près de chez vous. Cliquez sur les initiatives afin d'avoir plus d'informations.
 
@@ -41,13 +39,18 @@ filter_select("statut", "Statut de l'initiative", crosstalk_init, ~statut)
 ```
 
 
-Afin de faire recenser votre initiative, merci d'envoyer un mail à l'adresse suivante: contact@fmae.yt ou latufa.msa@fmae.yt
+Pour faire recenser votre initiative: faina.karani@fmae.yt ou communication@mayottenatureenvironnement.com
 
-::: {layout="[50,50]"}
+::: {layout="[50,50]" layout-nrow=2}
 
-[![](images/fmae.png){width=100}](https://www.facebook.com/FMAE976/?locale=fr_FR)
+[![](images/fmae.png){width=80}](https://www.facebook.com/FMAE976/?locale=fr_FR)
 
-[![](images/prefet.png){width=100}](https://www.mayotte.developpement-durable.gouv.fr/accueil-r1.html)
+[![](images/eedd.webp){width=80}](https://reseaueedd976.com/)
+
+[![](images/mne.webp){width=80}](https://mayottenatureenvironnement.com/)
+
+[![](images/prefet.png){width=80}](https://www.mayotte.developpement-durable.gouv.fr/accueil-r1.html)
+
 :::
 
 
@@ -83,19 +86,13 @@ leaflet::leaflet(data = crosstalk_init) |>
   leaflet::addLayersControl(
           baseGroups = c("Positron", "Esri World Imagery"),
           position = c("topleft"),
-          # overlayGroups = c("Avec Clustering", "Sans Clustering"),
           options = leaflet::layersControlOptions(collapsed = TRUE)
           ) |>
-  # leaflet::addCircleMarkers() |>
   leaflet::addCircleMarkers(
-          radius = 4,
-          color = ~ pal(statut),
-          stroke = FALSE,
-          fillOpacity = 1,
-          #group = "Sans Clustering",
-          # clusterOptions = leaflet::markerClusterOptions(),
-          popup = ~ initiative_card(image, type_d_action, structure, date_souhaité, inscriptions)
-            ) |>
+    radius = 6, fillColor = ~pal(statut), fillOpacity = 0.5,
+    stroke = TRUE, weight = 3, opacity = 0.8, color = ~pal(statut),
+    popup = ~initiative_card(image, type_d_action, structure, date_souhaité, inscriptions),
+  ) |>
   # leaflet::addCircleMarkers(
   #         radius = 6,
   #         color = ~ pal(statut),
@@ -105,8 +102,7 @@ leaflet::leaflet(data = crosstalk_init) |>
   #         clusterOptions = leaflet::markerClusterOptions(),
   #         popup =  ~initiative_card(image, initiatives, structure, date, inscriptions)
   #         ) |>
-  leaflet::addLegend(pal = pal, values = ~statut, opacity = 1, na.label = "Non disponible") |>
-  leaflet::fitBounds(45, -12.7, 45.312, -12.95)
+  leaflet::addLegend(pal = pal, values = ~statut, opacity = 1, na.label = "Non disponible") 
   
 ```
 # Infographie
@@ -228,6 +224,9 @@ ggplot2::ggplot() +
     axis.title = ggplot2::element_blank(),
     axis.text.y = ggplot2::element_text(size = 20),
     axis.text.x = ggplot2::element_text(size = 20),
+    panel.grid.minor.y = ggplot2::element_blank(),
+    panel.grid.minor.x = ggplot2::element_blank(),
+    panel.grid.major.x = ggplot2::element_blank()
   )
 
 ```
