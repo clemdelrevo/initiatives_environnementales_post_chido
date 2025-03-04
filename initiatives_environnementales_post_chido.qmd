@@ -59,19 +59,35 @@ Pour faire recenser votre initiative: faina.karani@fmae.yt ou communication@mayo
 
 pal <- leaflet::colorFactor(pal = c("#5773CCFF", "#FFB900FF"), domain = c("À venir", "Terminé"))
 
-initiative_card <- function(img_type, init_name, init_structure, init_date, init_inscription) {
-  # img_type = "EEE.png"
-  # init_name = "Arrachage d’EEE"
-  # init_structure = "GEPOMAY"
-  # init_date = "22/02/25"
-  # init_inscription = "https://www.jeveuxaider.gouv.fr/missions-benevolat/66226/benevolat-gepomay"
+initiative_card <- function(img_type, init_name, init_structure, init_date, init_inscription, init_contact, init_besoins, init_lieu, init_horaire) {
+  # img_type = winitiatives$image
+  # init_name = winitiatives$type_d_action
+  # init_structure = winitiatives$structure
+  # init_date = winitiatives$date_souhaité
+  # init_inscription = winitiatives$inscriptions
+  # init_contact = winitiatives$contact
+  inscription <- ifelse(
+    init_inscription != "",
+    paste0(
+      "<a style='text-align: left'; href= '", init_inscription,
+      "'target='_blank'>inscription ici</a>",
+      "<tr>"
+      ),
+    paste0(
+      "<p style='text-align: left; font-size: 15px;'> Inscription: <b>",
+      "faina.karani@fmae.yt","</b></p>"
+      )
+  )
   card_content <- paste0(
     "<img src='", img_type,"' style='width: 50px; height: 50px;'>",
     "<tr>",
     "<th><b><h3 style='text-align: center;'>", init_name,"</h3></b></th>",
     "<p style='text-align: left; font-size: 15px;'> structure organisatrice: <b>", init_structure, "</b></p>",
     "<p style='text-align: left; font-size: 15px;'> date: <b>", init_date, "</b></p>",
-    "<a style='text-align: left'; href= '", init_inscription, "' target='_blank'> inscription ici </a>"
+    inscription,
+    "<tr>",
+    "<p style='text-align: left; font-size: 15px;'> Lieu de rdv et horaire: <b>", paste(init_lieu, init_horaire), "</b></p>",
+    "<p style='text-align: left; font-size: 15px;'> Besoins: <b>", init_besoins, "</b></p>"
   )
   
   return(card_content)
@@ -89,7 +105,7 @@ leaflet::leaflet(data = crosstalk_init) |>
   leaflet::addCircleMarkers(
     radius = 6, fillColor = ~pal(statut), fillOpacity = 0.5,
     stroke = TRUE, weight = 3, opacity = 0.8, color = ~pal(statut),
-    popup = ~initiative_card(image, type_d_action, structure, date_souhaité, inscriptions),
+    popup = ~initiative_card(image, type_d_action, structure, date_souhaité, inscriptions, contact, besoins_spécifiques, lieu_de_l_action, horaire),
   ) |>
   # leaflet::addCircleMarkers(
   #         radius = 6,
@@ -184,7 +200,7 @@ count_init$type <- forcats::fct_reorder(count_init$type, count_init$n)
 
 ggplot2::ggplot() +
   ggplot2::geom_col(data = count_init, ggplot2::aes(y = n, x = type), fill = "#288fdb", color = "#288fdb") +
-  ggplot2::scale_y_continuous(breaks = 1:max(count_init$n), labels = as.integer) +
+  ggplot2::scale_y_continuous(breaks = seq(0, max(count_init$n), by = 2), labels = as.integer) +
   ggplot2::coord_flip() +
   ggplot2::theme_minimal() +
   ggplot2::theme(
@@ -200,7 +216,7 @@ ggplot2::ggplot() +
 ```{r}
 #| padding: 0px
 
-terminated_actions$date <- as.Date(terminated_actions$date, format = "%d/%m/%y")
+terminated_actions$date <- as.Date(terminated_actions$date, format = "%d/%m/%Y")
 
 init_monthly <- terminated_actions |>
   dplyr::mutate(month = lubridate::floor_date(date, "month"))
@@ -208,13 +224,13 @@ init_monthly <- terminated_actions |>
 init_monthly$month <- format.Date(init_monthly$month, format = "%d/%m/%y")
   
 monthly_count <- init_monthly |> dplyr::count(month)
-monthly_count$month <- as.Date(monthly_count$month, format = "%d/%m/%y")
+monthly_count$month <- as.Date(monthly_count$month, format = "%d/%m/%Y")
 
 
 ggplot2::ggplot() +
   ggplot2::geom_col(data = monthly_count, ggplot2::aes(x = month, y = n), fill = "orange") +
   ggplot2::scale_x_date(date_labels = "%b %Y", date_breaks = "1 month") +
-  ggplot2::scale_y_continuous(breaks = 1:max(monthly_count$n), labels = as.integer) +
+  ggplot2::scale_y_continuous(breaks = seq(0, max(monthly_count$n), by = 2), labels = as.integer) +
   ggplot2::theme_minimal() +
   ggplot2::theme(
     axis.title = ggplot2::element_blank(),
