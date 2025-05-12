@@ -20,6 +20,7 @@ Imports:
   quarto,
   leaflet,
   paletteer,
+  pals,
   rmarkdown,
   sf,
   tarchetypes,

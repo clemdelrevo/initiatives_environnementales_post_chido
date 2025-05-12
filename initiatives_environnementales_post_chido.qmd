@@ -3,7 +3,6 @@ title: "Initiatives environnementales post chido"
 format: 
   dashboard: 
     orientation: columns
-    nav-buttons: [github]
     theme: 
       - spacelab
       - style/custom.scss

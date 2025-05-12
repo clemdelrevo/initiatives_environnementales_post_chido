@@ -7,7 +7,7 @@
 
 # renv::init()
 # renv::install("usethis")
-# renv::snapshot() ; renv::status()
+# renv::install() ; renv::snapshot() ; renv::status()
 # usethis::use_description(check_name = FALSE)
 
 # Install deps with renv ---

@@ -19,6 +19,7 @@ wrangle_initiatives <- function(initiatives) {
   initiatives$image[initiatives$type == "Sensibilisation"] <- "images/sensibilisation.jpg"
   initiatives$image[initiatives$type == "Déblaiement de sentier"] <- "images/deblaiement.jpg"
   initiatives$image[initiatives$type == "Replantation"] <- "images/replantation.jpg"
+  initiatives$image[initiatives$type == "Déblayage de végétation"] <- "images/deblaiement.jpg"
   
   return(initiatives)
   
