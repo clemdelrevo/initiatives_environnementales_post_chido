@@ -21,6 +21,20 @@ wrangle_initiatives <- function(initiatives) {
   initiatives$image[initiatives$type == "Replantation"] <- "images/replantation.jpg"
   initiatives$image[initiatives$type == "Déblayage de végétation"] <- "images/deblaiement.jpg"
   
+  init_sf <- sf::st_as_sf(initiatives, coords = c("longitude", "latitude"), crs = sf::st_crs(4326))
+  init_sf <- sf::st_transform(init_sf, crs = sf::st_crs(4471))
+  identiques    <- sf::st_equals(init_sf)
+  identiques_sf <- init_sf[which(sapply(identiques, length) > 1), ]
+  init_sf <- init_sf[which(sapply(identiques, length) == 1), ]
+  identiques_sf <- sf::st_jitter(identiques_sf, amount = 50)
+  init_sf <- rbind(init_sf, identiques_sf)
+  init_sf <- sf::st_transform(init_sf, crs = sf::st_crs(4326))
+
+  init_sf$longitude <- sf::st_coordinates(init_sf)[, "X"]
+  init_sf$latitude  <- sf::st_coordinates(init_sf)[, "Y"]
+  
+  initiatives <- sf::st_drop_geometry(init_sf)
+  
   return(initiatives)
   
 }

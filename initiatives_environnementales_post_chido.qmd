@@ -58,7 +58,7 @@ Pour faire recenser votre initiative: faina.karani@fmae.yt ou communication@mayo
 
 pal <- leaflet::colorFactor(pal = c("#5773CCFF", "#FFB900FF"), domain = c("À venir", "Terminé"))
 
-initiative_card <- function(img_type, init_name, init_structure, init_date, init_inscription, init_contact, init_besoins, init_lieu, init_horaire) {
+initiative_card <- function(img_type, init_name, init_structure, init_date, init_inscription, init_contact, init_besoins, init_lieu, init_horaire, init_comm) {
   # img_type = winitiatives$image
   # init_name = winitiatives$type_d_action
   # init_structure = winitiatives$structure
@@ -68,25 +68,26 @@ initiative_card <- function(img_type, init_name, init_structure, init_date, init
   inscription <- ifelse(
     init_inscription != "",
     paste0(
-      "<a style='text-align: left'; href= '", init_inscription,
-      "'target='_blank'>inscription ici</a>",
+      "<p style='text-align: left; font-size: 13px;'> Inscriptions: <b>", init_inscription, "</b></p>",
       "<tr>"
       ),
     paste0(
-      "<p style='text-align: left; font-size: 15px;'> Inscription: <b>",
+      "<p style='text-align: left; font-size: 13px;'> Inscription: <b>",
       "faina.karani@fmae.yt","</b></p>"
       )
   )
   card_content <- paste0(
-    "<img src='", img_type,"' style='width: 50px; height: 50px;'>",
+    "<img src='", img_type,"' style='width: 60px; height: 50px;'>",
     "<tr>",
     "<th><b><h3 style='text-align: center;'>", init_name,"</h3></b></th>",
-    "<p style='text-align: left; font-size: 15px;'> structure organisatrice: <b>", init_structure, "</b></p>",
-    "<p style='text-align: left; font-size: 15px;'> date: <b>", init_date, "</b></p>",
+    "<p style='text-align: left; font-size: 13px;'> structure organisatrice: <b>", init_structure, "</b></p>",
+    "<p style='text-align: left; font-size: 13px;'> date: <b>", init_date, "</b></p>",
     inscription,
     "<tr>",
-    "<p style='text-align: left; font-size: 15px;'> Lieu de rdv et horaire: <b>", paste(init_lieu, init_horaire), "</b></p>",
-    "<p style='text-align: left; font-size: 15px;'> Besoins: <b>", init_besoins, "</b></p>"
+    "<p style='text-align: left; font-size: 13px;'> Lieu de rdv et horaire: <b>", paste(init_lieu, init_horaire), "</b></p>",
+    "<p style='text-align: left; font-size: 13px;'> Besoins: <b>", init_besoins, "</b></p>",
+    "<tr>",
+    "<p style='text-align: left; font-size: 13px;'> Commentaire: <b>", init_comm, "</b></p>"
   )
   
   return(card_content)
@@ -104,7 +105,7 @@ leaflet::leaflet(data = crosstalk_init) |>
   leaflet::addCircleMarkers(
     radius = 6, fillColor = ~pal(statut), fillOpacity = 0.5,
     stroke = TRUE, weight = 3, opacity = 0.8, color = ~pal(statut),
-    popup = ~initiative_card(image, type_d_action, structure, date_souhaité, inscriptions, contact, besoins_spécifiques, lieu_de_l_action, horaire),
+    popup = ~initiative_card(image, type_d_action, structure, date_souhaité, inscriptions, contact, besoins_spécifiques, lieu_de_l_action, horaire, commentaires_supplémentaires),
   ) |>
   # leaflet::addCircleMarkers(
   #         radius = 6,
@@ -112,7 +113,7 @@ leaflet::leaflet(data = crosstalk_init) |>
   #         stroke = FALSE,
   #         fillOpacity = 1,
   #         group = "Avec Clustering",
-  #         clusterOptions = leaflet::markerClusterOptions(),
+  #         clusterOptions = leaflet::markerClusterOptions(showCoverageOnHover = TRUE),
   #         popup =  ~initiative_card(image, initiatives, structure, date, inscriptions)
   #         ) |>
   leaflet::addLegend(pal = pal, values = ~statut, opacity = 1, na.label = "Non disponible") 
@@ -220,7 +221,7 @@ terminated_actions$date <- as.Date(terminated_actions$date, format = "%d/%m/%Y")
 init_monthly <- terminated_actions |>
   dplyr::mutate(month = lubridate::floor_date(date, "month"))
 
-init_monthly$month <- format.Date(init_monthly$month, format = "%d/%m/%y")
+init_monthly$month <- format.Date(init_monthly$month, format = "%d/%m/%Y")
   
 monthly_count <- init_monthly |> dplyr::count(month)
 monthly_count$month <- as.Date(monthly_count$month, format = "%d/%m/%Y")
