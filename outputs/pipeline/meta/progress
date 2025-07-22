@@ -1,6 +1,11 @@
 name|type|parent|branches|progress
-initiative_path|stem|initiative_path|0|skipped
-bversant_path|stem|bversant_path|0|skipped
-initiatives|stem|initiatives|0|skipped
-bversant|stem|bversant|0|skipped
-winitiatives|stem|winitiatives|0|skipped
+initiative_path|stem|initiative_path|0|dispatched
+initiative_path|stem|initiative_path|0|completed
+bversant_path|stem|bversant_path|0|dispatched
+bversant_path|stem|bversant_path|0|completed
+initiatives|stem|initiatives|0|dispatched
+initiatives|stem|initiatives|0|completed
+bversant|stem|bversant|0|dispatched
+bversant|stem|bversant|0|completed
+winitiatives|stem|winitiatives|0|dispatched
+winitiatives|stem|winitiatives|0|completed
